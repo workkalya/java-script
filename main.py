@@ -1,7 +1,7 @@
-a = 12
-num =  int(input("Pleace enter a numer"))
-if num == 12:
-    a = "Hi we are here"
-    print(a)
-    
+def apple(a):
+  return "hi " + a
+  
 
+a = [apple("hi"),"hi"]
+
+print(a[0])
