@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+   <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+#todo-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#todo-input {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+}
+
+#add-btn {
+    width: 30%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#todo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.todo-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.todo-item:last-child {
+    border-bottom: none;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #666;
+}
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="Enter a task">
+        <button id="add-btn">Add Task</button>
+    </form>
+    <ul id="todo-list"></ul>
+    <script>
+        class TodoItem {
+    constructor(text) {
+        this.text = text;
+        this.completed = false;
+    }
+
+    toggleCompleted() {
+        this.completed = !this.completed;
+    }
+}
+
+class TodoList {
+    constructor() {
+        this.items = [];
+    }
+
+    addItem(text) {
+        const item = new TodoItem(text);
+        this.items.push(item);
+        this.render();
+    }
+
+    toggleItem(index) {
+        this.items[index].toggleCompleted();
+        this.render();
+    }
+
+    render() {
+        const listElement = document.getElementById('todo-list');
+        listElement.innerHTML = '';
+
+        this.items.forEach((item, index) => {
+            const itemElement = document.createElement('li');
+            itemElement.classList.add('todo-item');
+            itemElement.textContent = item.text;
+
+            if (item.completed) {
+                itemElement.classList.add('completed');
+            }
+
+            itemElement.addEventListener('click', () => {
+                this.toggleItem(index);
+            });
+
+            listElement.appendChild(itemElement);
+        });
+    }
+}
+
+const todoList = new TodoList();
+const formElement = document.getElementById('todo-form');
+
+formElement.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const inputElement = document.getElementById('todo-input');
+    const text = inputElement.value.trim();
+
+    if (text) {
+        todoList.addItem(text);
+        inputElement.value = '';
+    }
+});
+    </script>
+</body>
+</html>
